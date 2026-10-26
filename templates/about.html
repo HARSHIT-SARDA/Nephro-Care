@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}About Us | NephroCare{% endblock %}
+{% block content %}
+<section class="info-hero about-page">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="info-eyebrow"><i class="bi bi-heart-pulse-fill me-2"></i>About NephroCare</span>
+        <h1>Technology supporting <span>kidney health awareness.</span></h1>
+        <p class="info-lead">NephroCare is an academic project that demonstrates how machine learning can support early CKD risk screening using selected clinical measurements.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Start an Assessment <i class="bi bi-arrow-right ms-2"></i></a>
+          <a class="btn btn-outline-primary btn-lg" href="{{ url_for('services') }}">Explore Services</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="info-visual"><div class="info-icon"><i class="bi bi-activity"></i></div><h3>Understand. Track. Discuss.</h3><p>Keep screening information organised and use it as a starting point for a conversation with a qualified healthcare professional.</p><div class="info-pills"><span>Machine Learning</span><span>Prediction History</span><span>PDF Reports</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="info-section">
+  <div class="container">
+    <div class="text-center info-heading"><span class="info-eyebrow">Our purpose</span><h2>What NephroCare aims to do</h2><p>A simple academic demonstration connecting a web interface, a Python backend, a database and a trained ML model.</p></div>
+    <div class="row g-4">
+      <div class="col-md-4"><article class="info-card"><div class="info-card-icon"><i class="bi bi-clipboard2-pulse"></i></div><h3>Structured screening</h3><p>Collect selected clinical values through a guided assessment form.</p></article></div>
+      <div class="col-md-4"><article class="info-card"><div class="info-card-icon"><i class="bi bi-cpu"></i></div><h3>ML-assisted estimate</h3><p>Use the configured Random Forest model to generate an educational risk estimate from the submitted values.</p></article></div>
+      <div class="col-md-4"><article class="info-card"><div class="info-card-icon"><i class="bi bi-clock-history"></i></div><h3>History and reports</h3><p>Allow signed-in users to review saved assessments and access available reports.</p></article></div>
+    </div>
+  </div>
+</section>
+<section class="info-note"><div class="container"><div class="info-note-inner"><i class="bi bi-shield-check"></i><div><h3>Important health notice</h3><p>NephroCare is an academic screening prototype, not a medical device or diagnostic service. Its result cannot confirm or rule out CKD. Please discuss symptoms and laboratory results with a qualified healthcare professional.</p></div></div></div></section>
+{% endblock %}

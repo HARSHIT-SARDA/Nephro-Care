@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Contact | NephroCare{% endblock %}
+{% block content %}
+<section class="info-hero contact-page"><div class="container"><div class="row align-items-center g-5"><div class="col-lg-7"><span class="info-eyebrow"><i class="bi bi-chat-dots-fill me-2"></i>Contact</span><h1>Questions about the <span>NephroCare project?</span></h1><p class="info-lead">NephroCare is an academic project developed to demonstrate a machine-learning-assisted CKD screening workflow.</p><a class="btn btn-primary btn-lg mt-3" href="{{ url_for('about') }}">About the Project</a></div><div class="col-lg-5"><div class="info-visual"><div class="info-icon"><i class="bi bi-envelope-paper-heart"></i></div><h3>Academic project</h3><p>For project-related questions, contact your project team or supervising faculty through your institution's usual channels.</p><div class="info-pills"><span>Flask</span><span>MySQL</span><span>Machine Learning</span></div></div></div></div></div></section>
+<section class="info-section"><div class="container"><div class="info-heading text-center"><h2>Before using a prediction</h2><p>For any health concern, consult a qualified healthcare professional. This website does not provide emergency care, diagnosis or treatment.</p></div></div></section>
+{% endblock %}

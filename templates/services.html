@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Services | NephroCare{% endblock %}
+{% block content %}
+<section class="info-hero services-page">
+  <div class="container text-center">
+    <span class="info-eyebrow"><i class="bi bi-grid-1x2-fill me-2"></i>NephroCare Services</span>
+    <h1>Helpful tools for <span>screening and tracking.</span></h1>
+    <p class="info-lead mx-auto">Explore the main features available in this academic CKD risk assessment application.</p>
+    <a class="btn btn-primary btn-lg mt-3" href="{{ url_for('login') }}">Get Started <i class="bi bi-arrow-right ms-2"></i></a>
+  </div>
+</section>
+<section class="info-section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-clipboard2-pulse"></i></div><h3>CKD Risk Assessment</h3><p>Enter selected clinical measurements in the assessment form to receive a model-generated screening estimate.</p><a href="{{ url_for('prediction') if session.get('user_id') else url_for('login') }}">Open assessment <i class="bi bi-arrow-up-right ms-1"></i></a></article></div>
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-graph-up-arrow"></i></div><h3>Prediction Results</h3><p>View the model output and the submitted measurements together on the results screen.</p><span class="service-tag">Result summary</span></article></div>
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-clock-history"></i></div><h3>Prediction History</h3><p>Review previously saved assessments associated with your signed-in account.</p><a href="{{ url_for('history') if session.get('user_id') else url_for('login') }}">View history <i class="bi bi-arrow-up-right ms-1"></i></a></article></div>
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-file-earmark-pdf"></i></div><h3>Report Download</h3><p>Download an available assessment report for personal records or discussion with a clinician.</p><span class="service-tag">PDF report</span></article></div>
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-person-circle"></i></div><h3>Account and Profile</h3><p>Use an individual account to access protected dashboard features and personal history.</p><a href="{{ url_for('profile') if session.get('user_id') else url_for('login') }}">Account access <i class="bi bi-arrow-up-right ms-1"></i></a></article></div>
+      <div class="col-md-6 col-lg-4"><article class="info-card service-info-card"><div class="info-card-icon"><i class="bi bi-chat-square-text"></i></div><h3>Project Information</h3><p>Learn about the project scope, its intended use and its limitations.</p><a href="{{ url_for('about') }}">About the project <i class="bi bi-arrow-up-right ms-1"></i></a></article></div>
+    </div>
+  </div>
+</section>
+<section class="info-note"><div class="container"><div class="info-note-inner"><i class="bi bi-exclamation-triangle"></i><div><h3>Not a medical diagnosis</h3><p>Predictions are for academic demonstration and awareness only. They should not be used to make treatment decisions or replace professional medical advice.</p></div></div></div></section>
+{% endblock %}

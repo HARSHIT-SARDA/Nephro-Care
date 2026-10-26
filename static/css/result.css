@@ -1,0 +1,49 @@
+body{
+
+    background:#eef5ff;
+
+    font-family:'Poppins',sans-serif;
+
+}
+
+.card{
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.card-header{
+
+    padding:30px;
+
+}
+
+.list-group-item{
+
+    font-size:17px;
+
+    border:none;
+
+    padding:15px;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+.badge{
+
+    padding:15px 25px;
+
+}
+
+h1,h2,h3,h4{
+
+    font-weight:700;
+
+}

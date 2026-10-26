@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | NephroCare{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <div class="container py-4 py-lg-5">
+
+        <section class="dashboard-hero mb-4 mb-lg-5">
+            <div class="dashboard-hero-copy">
+                <span class="dashboard-eyebrow"><i class="bi bi-heart-pulse-fill"></i> AI-assisted kidney health</span>
+                <h1>Welcome, {{ username }}!</h1>
+                <p>Review your screening history and start a new CKD risk assessment.</p>
+            </div>
+            <div class="dashboard-hero-icon" aria-hidden="true">
+                <i class="bi bi-activity"></i>
+            </div>
+        </section>
+
+        <!-- Statistic cards: Bootstrap controls the responsive columns. -->
+        <section class="row g-3 g-xl-4 mb-4 mb-lg-5" aria-label="Dashboard overview">
+            <div class="col-12 col-sm-6 col-xl-3">
+                <article class="card dashboard-stat h-100">
+                    <div class="card-body">
+                        <span class="stat-icon stat-icon-red"><i class="bi bi-heart-pulse-fill"></i></span>
+                        <p class="stat-label">Kidney Health</p>
+                        <h2 class="stat-value
+                            {% if kidney_health == 'High Risk' %}text-danger
+                            {% elif kidney_health == 'Moderate' %}text-warning
+                            {% elif kidney_health == 'Healthy' %}text-success
+                            {% else %}text-secondary{% endif %}">
+                            {{ kidney_health }}
+                        </h2>
+                        <p class="stat-note">Based on your latest saved prediction</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <article class="card dashboard-stat h-100">
+                    <div class="card-body">
+                        <span class="stat-icon stat-icon-green"><i class="bi bi-file-earmark-medical-fill"></i></span>
+                        <p class="stat-label">Reports</p>
+                        <h2 class="stat-value">{{ total_reports }}</h2>
+                        <p class="stat-note">Saved assessments in your account</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <article class="card dashboard-stat h-100">
+                    <div class="card-body">
+                        <span class="stat-icon stat-icon-blue"><i class="bi bi-cpu-fill"></i></span>
+                        <p class="stat-label">AI Status</p>
+                        <h2 class="stat-value text-success">{{ ai_status }}</h2>
+                        <p class="stat-note">Prediction service status</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <article class="card dashboard-stat h-100">
+                    <div class="card-body">
+                        <span class="stat-icon stat-icon-amber"><i class="bi bi-person-circle"></i></span>
+                        <p class="stat-label">Account</p>
+                        <h2 class="stat-value account-value">{{ username }}</h2>
+                        <p class="stat-note">Signed-in user</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="row g-3 g-xl-4 mb-4 mb-lg-5">
+            <div class="col-12 col-lg-6">
+                <article class="card dashboard-panel h-100">
+                    <div class="card-body">
+                        <div class="panel-heading">
+                            <span class="panel-heading-icon"><i class="bi bi-lightning-charge-fill"></i></span>
+                            <div>
+                                <h2>Quick Actions</h2>
+                                <p>Continue to a NephroCare feature</p>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-3">
+                            <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg dashboard-action">
+                                <i class="bi bi-activity me-2"></i>Start CKD Assessment
+                            </a>
+                            <a href="{{ url_for('history') }}" class="btn btn-success btn-lg dashboard-action">
+                                <i class="bi bi-clock-history me-2"></i>View Prediction History
+                            </a>
+                            <a href="{{ url_for('profile') }}" class="btn btn-outline-primary btn-lg dashboard-action">
+                                <i class="bi bi-person-lines-fill me-2"></i>View My Profile
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <article class="card dashboard-panel h-100">
+                    <div class="card-body">
+                        <div class="panel-heading">
+                            <span class="panel-heading-icon health-heading-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                            <div>
+                                <h2>Latest Health Status</h2>
+                                <p>Your most recent saved screening result</p>
+                            </div>
+                        </div>
+
+                        {% if latest_risk == "High" %}
+                            {% set risk_percent = 90 %}
+                            {% set risk_class = "bg-danger" %}
+                            {% set risk_text = "High risk" %}
+                        {% elif latest_risk == "Medium" %}
+                            {% set risk_percent = 60 %}
+                            {% set risk_class = "bg-warning" %}
+                            {% set risk_text = "Moderate risk" %}
+                        {% elif latest_risk == "Low" %}
+                            {% set risk_percent = 25 %}
+                            {% set risk_class = "bg-success" %}
+                            {% set risk_text = "Low risk" %}
+                        {% else %}
+                            {% set risk_percent = 0 %}
+                            {% set risk_class = "bg-secondary" %}
+                            {% set risk_text = "No prediction yet" %}
+                        {% endif %}
+
+                        <div class="health-summary">
+                            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                                <span class="health-summary-label">Latest result</span>
+                                <span class="badge rounded-pill
+                                    {% if latest_risk == 'High' %}text-bg-danger
+                                    {% elif latest_risk == 'Medium' %}text-bg-warning
+                                    {% elif latest_risk == 'Low' %}text-bg-success
+                                    {% else %}text-bg-secondary{% endif %}">
+                                    {{ risk_text }}
+                                </span>
+                            </div>
+                            <div class="progress dashboard-progress" role="progressbar"
+                                 aria-label="Application-defined risk category"
+                                 aria-valuenow="{{ risk_percent }}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar {{ risk_class }}" style="width: {{ risk_percent }}%"></div>
+                            </div>
+                            <p class="health-description mt-3">
+                                {% if latest_risk == "High" %}
+                                    Your latest model result is in the high-risk category. Please consult a qualified healthcare professional.
+                                {% elif latest_risk == "Medium" %}
+                                    Your latest model result is in the moderate-risk category. Consider discussing it with a healthcare professional.
+                                {% elif latest_risk == "Low" %}
+                                    Your latest model result is in the low-risk category. This result does not rule out kidney disease.
+                                {% else %}
+                                    You have not saved a prediction yet. Start an assessment to see a result here.
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="health-details">
+                            <div><span>Prediction</span><strong>{{ latest_prediction }}</strong></div>
+                            <div><span>Model confidence</span><strong>{{ latest_confidence }}</strong></div>
+                        </div>
+                        <p class="dashboard-disclaimer mb-0">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Academic screening estimate only; not a medical diagnosis.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="card dashboard-panel recent-panel">
+            <div class="card-body p-0">
+                <div class="recent-header">
+                    <div>
+                        <h2>Recent Predictions</h2>
+                        <p>Your latest saved assessments</p>
+                    </div>
+                    <a href="{{ url_for('history') }}" class="btn btn-outline-primary btn-sm">View all history</a>
+                </div>
+
+                {% if recent_predictions %}
+                    <div class="table-responsive">
+                        <table class="table align-middle dashboard-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Prediction</th>
+                                    <th scope="col">Risk</th>
+                                    <th scope="col">Confidence</th>
+                                    <th scope="col" class="text-end">Report</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in recent_predictions %}
+                                <tr>
+                                    <td>{{ item.prediction_date.strftime('%d %b %Y, %I:%M %p') if item.prediction_date else 'N/A' }}</td>
+                                    <td>{{ item.prediction }}</td>
+                                    <td>
+                                        {% if item.risk|string|lower == 'high' %}
+                                            <span class="badge text-bg-danger">High</span>
+                                        {% elif item.risk|string|lower == 'medium' %}
+                                            <span class="badge text-bg-warning">Medium</span>
+                                        {% else %}
+                                            <span class="badge text-bg-success">Low</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.confidence }}</td>
+                                    <td class="text-end">
+                                        <a class="btn btn-sm btn-outline-primary"
+                                           href="{{ url_for('download_report', prediction_id=item.id) }}"
+                                           aria-label="Download report {{ item.id }}">
+                                            <i class="bi bi-download me-1"></i>PDF
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-clipboard2-pulse"></i>
+                        <h3>No predictions yet</h3>
+                        <p>Start your first assessment to see saved results here.</p>
+                        <a href="{{ url_for('prediction') }}" class="btn btn-primary">Start Assessment</a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <p class="dashboard-footer-note">
+            <i class="bi bi-shield-check me-1"></i>
+            NephroCare provides educational prediction support and does not replace professional medical advice.
+        </p>
+    </div>
+</div>
+{% endblock %}
